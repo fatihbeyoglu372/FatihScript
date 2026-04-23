@@ -21,15 +21,16 @@ $ ts-node index.ts test.fs
 ------------------------------------------------------------
 [FATİHSCRIPT KOD KLAVUZU]
 
-1. Dosya Yapısı:
+1. Değişken Tanımlama:
+   Değişkenlerinizi "değişken" anahtar kelimesiyle tanımlayın:
+   Örnek: değişken isim = "Fatihbey";
+
+2. Ekrana Yazdırma:
+   Ekrana çıktı vermek için "printIn" komutunu kullanın:
+   Örnek: printIn("Merhaba FatihScript!");
+
+3. Dosya Yapısı:
    Kodlarınızı mutlaka '.fs' uzantılı dosyalarda saklayın.
-
-2. Değişken Tanımlama:
-   FatihScript şu an için TypeScript/JavaScript mantığını 
-   kullanır. (İleride özel keywordler eklenecektir.)
-
-3. Ekrana Yazdırma:
-   console.log("Mesajınız"); // Standart çıktı komutu.
 
 4. VS Code Ayarı:
    .fs dosyalarında ikonun 'F' görünmesi için:
