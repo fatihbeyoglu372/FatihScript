@@ -1,0 +1,7 @@
+/* .fs uzantılı dosyaların ikonunu değiştirir */
+.monaco-list-row[aria-label*=".fs"] .icon-name-extension-typescript {
+    background-image: url('file:///home/fatihbey/fatihscript/fatihscript-logo.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    color: transparent !important;
+}
