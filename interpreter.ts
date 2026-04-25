@@ -1,8 +1,8 @@
 import * as fs from 'fs';
-// Raylib integration for graphics
+// Raylib integration for graphics engine
 const r = require('raylib'); 
 
-// Global memory for variables
+// Global memory to store variables
 const memory: { [key: string]: any } = {};
 
 function execute(lines: string[]) {
@@ -10,7 +10,7 @@ function execute(lines: string[]) {
     while (i < lines.length) {
         let line = lines[i].trim();
 
-        // Skip empty lines and comments
+        // Skip comments and empty lines
         if (!line || line.startsWith("//")) {
             i++;
             continue;
@@ -53,7 +53,7 @@ function execute(lines: string[]) {
             }
         }
 
-        // --- IF CONDITION ---
+        // --- CONDITIONAL STATEMENTS (IF) ---
         else if (line.startsWith("if")) {
             const match = line.match(/\((.*)\)/);
             const condition = match ? match[1] : null;
@@ -88,7 +88,7 @@ function execute(lines: string[]) {
             }
         }
 
-        // --- WHILE LOOP ---
+        // --- LOOPS (WHILE) ---
         else if (line.startsWith("while")) {
             const match = line.match(/\((.*)\)/);
             const condition = match ? match[1] : null;
@@ -126,14 +126,17 @@ function execute(lines: string[]) {
             }
         }
 
-        // --- VARIABLE & LOG ---
-        else if (line.startsWith("log(")) {
+        // --- OUTPUT (println ONLY) ---
+        else if (line.startsWith("println(")) {
             const match = line.match(/\((.*)\)/);
             if (match && match[1]) {
                 const content = match[1].trim();
-                console.log(memory[content] !== undefined ? memory[content] : content.replace(/"/g, ''));
+                const output = memory[content] !== undefined ? memory[content] : content.replace(/"/g, '');
+                console.log(output);
             }
         }
+
+        // --- VARIABLE DECLARATION & ASSIGNMENT ---
         else if (line.startsWith("var ")) {
             const parts = line.replace("var ", "").split("=");
             if (parts.length === 2) {
@@ -149,7 +152,7 @@ function execute(lines: string[]) {
     }
 }
 
-// CLI Entry Point
+// CLI Execution
 const filename = process.argv[2];
 if (filename && fs.existsSync(filename)) {
     const code = fs.readFileSync(filename, 'utf-8');

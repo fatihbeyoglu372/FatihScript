@@ -12,67 +12,56 @@ while (1 == 1) {
     startDrawing()
     clearCanvas()
 
-    // 1. Kontroller
+    // 1. Kontroller (Artık if kullanıyoruz!)
     var wBasili = isKeyDown(KEY_W)
     var sBasili = isKeyDown(KEY_S)
 
-    while (wBasili == 1) {
+    if (wBasili == 1) {
         var raketY = raketY - 7
-        var wBasili = 0 
     }
-    while (sBasili == 1) {
+    if (sBasili == 1) {
         var raketY = raketY + 7
-        var sBasili = 0
     }
 
     // 2. Top Hareketi
     var topX = topX + topHiziX
     var topY = topY + topHiziY
 
-    // 3. Duvar Sekmeleri (Alt ve Üst)
-    while (topY > 585) {
+    // 3. Duvar Sekmeleri
+    if (topY > 585) {
         var topHiziY = -5
-        var topY = 584 // Sıkışmaması için biraz geri çektik
+        var topY = 584
     }
-    while (topY < 5) {
+    if (topY < 5) {
         var topHiziY = 5
         var topY = 6
     }
 
-    // 4. Sağ Duvar (Sektirme)
-    while (topX > 785) {
+    // 4. Sağ Duvar
+    if (topX > 785) {
         var topHiziX = -5
         var topX = 784
     }
 
-    // 5. Raket Çarpışma Mantığı (Basitleştirilmiş)
-    // Top sol tarafa (raket hizasına) geldi mi?
-// 5. Raket Çarpışma Mantığı (FIXED)
-    while (topX < 40) {
+    // 5. Raket Çarpışma Mantığı (if ile daha temiz)
+    if (topX < 40) {
         var raketAlt = raketY + 90
         
-        // Sadece top raketin dikey hizasındaysa sektir
-        while (topY > raketY) {
-            while (topY < raketAlt) {
-                var topHiziX = 5     // Yönü sağa çevir
-                var topX = 45        // KRİTİK: Topu raketin dışına fırlat (Sonsuz döngüyü kırar)
+        if (topY > raketY) {
+            if (topY < raketAlt) {
+                var topHiziX = 5
+                var topX = 45
                 var skor = skor + 1
-                log("Vuruldu!")
-                
-                // Döngüden güvenli çıkış için yardımcı değişkenleri sıfırla
-                var raketAlt = -1
-                var topY = -1
+                println("Vuruldu! Skor:")
+                println(skor)
             }
         }
-        // Eğer vuramadıysa ve raketin arkasına geçtiyse, 
-        // ana döngüye devam etmesi için topX'i 41 yapalım (Yoksa kilitlenir)
-        var topX = 41 
     }
 
     // 6. Yanma Durumu
-    while (topX < 5) {
-        log("OYUN BITTI! Skorun:")
-        log(skor)
+    if (topX < 0) {
+        println("OYUN BITTI! Skorun:")
+        println(skor)
         var topX = 400
         var topY = 300
         var skor = 0
