@@ -3,30 +3,30 @@
 
 ![FatihScript Logo](fatihscript-logo.png)
 
-FatihScript, Pardus ve Debian tabanlı sistemler için geliştirilmiş, düşük seviyeli mantık ile yüksek seviyeli yazım kolaylığını birleştiren yerli ve milli bir interpreter dilidir. Raylib motoru üzerine inşa edilmiştir.
+FatihScript is a native and powerful interpreter language developed for Pardus and Debian-based systems. It combines low-level logic with high-level syntax simplicity, built on top of the Raylib engine.
 
 ---
 
-## ✨ Yenilikler (v3.0)
-- ⌨️ Terminal Input: Artık input() komutu ile kullanıcıdan veri alabilirsiniz.
-- 🖱️ Mouse Desteği: getMouseX(), getMouseY() ve isMouseButtonDown() eklendi.
-- 🛡️ PollInputEvents: İşletim sistemiyle iletişim güçlendirildi, donma sorunları giderildi.
-- 📏 PrintLine: Sadece println() standardı getirildi.
+## ✨ What's New (v3.0)
+- ⌨️ Terminal Input: You can now get user data using the input() command.
+- 🖱️ Mouse Support: Added getMouseX(), getMouseY(), and isMouseButtonDown().
+- 🛡️ PollInputEvents: Strengthened OS communication, fixing "Not Responding" issues.
+- 📏 PrintLine: Standardized output with the println() function.
 
 ---
 
-## 🛠️ Kurulum
-FatihScript'i çalıştırmak için Node.js ve gerekli kütüphaneleri kurun:
+## 🛠️ Installation & Execution
+To run FatihScript, ensure you have Node.js installed, then run:
 
-# Komut:
+# Install Dependencies:
 npm install raylib readline-sync
 
-# Programı Başlatmak İçin:
+# Start Your Script:
 ts-node interpreter.ts test.fs
 
 ---
 
-## 🎮 Örnek Kod (Boyama Uygulaması)
+## 🎨 Sample Code (Painting App)
 
 openWindow(800, 600, "FatihPaint")
 startDrawing()
@@ -45,6 +45,6 @@ while (1 == 1) {
 
 ---
 
-## 👨‍💻 GELİŞTİRİCİ:
+## 👨‍💻 DEVELOPER:
 # Fatihbey (@fatihbeyoglu372)
-Pardus üzerinde sistem programlama ve oyun motoru mimarisi tutkunu.
+System programming and game engine architecture enthusiast on Pardus Linux.
