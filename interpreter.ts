@@ -1,162 +1,106 @@
 import * as fs from 'fs';
-// Raylib integration for graphics engine
 const r = require('raylib'); 
+const inputReader = require('readline-sync'); // Kullanıcı girişi için
 
-// Global memory to store variables
 const memory: { [key: string]: any } = {};
 
 function execute(lines: string[]) {
     let i = 0;
     while (i < lines.length) {
         let line = lines[i].trim();
+        if (!line || line.startsWith("//")) { i++; continue; }
 
-        // Skip comments and empty lines
-        if (!line || line.startsWith("//")) {
-            i++;
-            continue;
-        }
-
-        // --- GRAPHICS COMMANDS ---
+        // --- GRAPHICS (GRAFİK) ---
         if (line.startsWith("openWindow(")) {
             const match = line.match(/\((.*),(.*),(.*)\)/);
             if (match) {
-                const w = parseInt(match[1].trim());
-                const h = parseInt(match[2].trim());
-                const title = match[3].trim().replace(/"/g, '');
-                r.InitWindow(w, h, title);
+                r.InitWindow(parseInt(match[1]), parseInt(match[2]), match[3].replace(/"/g, ''));
                 r.SetTargetFPS(60);
             }
         }
         else if (line === "startDrawing()") r.BeginDrawing();
         else if (line === "endDrawing()") r.EndDrawing();
         else if (line === "clearCanvas()") r.ClearBackground(r.BLACK);
-
         else if (line.startsWith("drawRect(")) {
             const match = line.match(/\((.*),(.*),(.*),(.*)\)/);
             if (match) {
-                const x = eval(match[1].trim().replace(/([a-zA-Zçğışöü]+)/g, (m) => memory[m] ?? m));
-                const y = eval(match[2].trim().replace(/([a-zA-Zçğışöü]+)/g, (m) => memory[m] ?? m));
-                const w = parseInt(match[3].trim());
-                const h = parseInt(match[4].trim());
-                r.DrawRectangle(x, y, w, h, r.WHITE);
+                const x = eval(match[1].replace(/([a-zA-Zçğışöü]+)/g, (m) => memory[m] ?? m));
+                const y = eval(match[2].replace(/([a-zA-Zçğışöü]+)/g, (m) => memory[m] ?? m));
+                r.DrawRectangle(x, y, parseInt(match[3]), parseInt(match[4]), r.WHITE);
             }
         }
 
-        // --- KEYBOARD INPUT ---
+        // --- INPUTS (KLAVYE, FARE, TERMİNAL) ---
+        else if (line.startsWith("var ") && line.includes("input(")) {
+            const parts = line.replace("var ", "").split("=");
+            const name = parts[0].trim();
+            const promptMatch = line.match(/input\("(.*)"\)/);
+            const promptText = promptMatch ? promptMatch[1] : "";
+            memory[name] = inputReader.question(promptText + " ");
+        }
         else if (line.startsWith("var ") && line.includes("isKeyDown(")) {
             const name = line.replace("var ", "").split("=")[0].trim();
             const keyMatch = line.match(/isKeyDown\((.*)\)/);
-            if (keyMatch) {
-                const keyName = keyMatch[1].trim();
-                const isPressed = r.IsKeyDown(r[keyName]) ? 1 : 0;
-                memory[name] = isPressed;
+            if (keyMatch) memory[name] = r.IsKeyDown(r[keyMatch[1].trim()]) ? 1 : 0;
+        }
+        else if (line.startsWith("var ") && line.includes("getMouseX()")) {
+            memory[line.split("=")[0].replace("var ", "").trim()] = r.GetMouseX();
+        }
+        else if (line.startsWith("var ") && line.includes("getMouseY()")) {
+            memory[line.split("=")[0].replace("var ", "").trim()] = r.GetMouseY();
+        }
+        else if (line.startsWith("var ") && line.includes("isMouseButtonDown()")) {
+            memory[line.split("=")[0].replace("var ", "").trim()] = r.IsMouseButtonDown(0) ? 1 : 0;
+        }
+
+        // --- LOGIC (IF & WHILE) ---
+        else if (line.startsWith("if") || line.startsWith("while")) {
+            const isWhile = line.startsWith("while");
+            const condition = line.match(/\((.*)\)/)?.[1];
+            let blockStart = i + 1, blockEnd = -1, bc = 0;
+            for (let j = i; j < lines.length; j++) {
+                if (lines[j].includes("{")) bc++;
+                if (lines[j].includes("}")) { bc--; if (bc === 0) { blockEnd = j; break; } }
+            }
+            if (blockEnd !== -1 && condition) {
+                const run = () => {
+                    const proc = condition.replace(/([a-zA-Zçğışöü]+)/g, (m) => memory[m] !== undefined ? memory[m] : m);
+                    return eval(proc);
+                };
+                if (isWhile) {
+                    while (run() && !r.WindowShouldClose()) {
+                        r.PollInputEvents(); // Donmayı engeller
+                        execute(lines.slice(blockStart, blockEnd));
+                    }
+                } else if (run()) {
+                    execute(lines.slice(blockStart, blockEnd));
+                }
+                i = blockEnd;
             }
         }
 
-        // --- CONDITIONAL STATEMENTS (IF) ---
-        else if (line.startsWith("if")) {
-            const match = line.match(/\((.*)\)/);
-            const condition = match ? match[1] : null;
-
-            if (condition) {
-                let blockStart = i + 1;
-                let blockEnd = -1;
-                let braceCount = 0;
-
-                for (let j = i; j < lines.length; j++) {
-                    if (lines[j].includes("{")) braceCount++;
-                    if (lines[j].includes("}")) {
-                        braceCount--;
-                        if (braceCount === 0) {
-                            blockEnd = j;
-                            break;
-                        }
-                    }
-                }
-
-                if (blockEnd !== -1) {
-                    const processedCondition = condition.replace(/([a-zA-Zçğışöü]+)/g, (m) => {
-                        return memory[m] !== undefined ? memory[m] : m;
-                    });
-
-                    if (eval(processedCondition)) {
-                        const ifLines = lines.slice(blockStart, blockEnd);
-                        execute(ifLines); 
-                    }
-                    i = blockEnd; 
-                }
-            }
-        }
-
-        // --- LOOPS (WHILE) ---
-        else if (line.startsWith("while")) {
-            const match = line.match(/\((.*)\)/);
-            const condition = match ? match[1] : null;
-
-            if (condition) {
-                let blockStart = i + 1;
-                let blockEnd = -1;
-                let braceCount = 0;
-
-                for (let j = i; j < lines.length; j++) {
-                    if (lines[j].includes("{")) braceCount++;
-                    if (lines[j].includes("}")) {
-                        braceCount--;
-                        if (braceCount === 0) {
-                            blockEnd = j;
-                            break;
-                        }
-                    }
-                }
-
-                if (blockEnd !== -1) {
-                    const loopLines = lines.slice(blockStart, blockEnd);
-                    const checkCondition = () => {
-                        const processedCondition = condition.replace(/([a-zA-Zçğışöü]+)/g, (m) => {
-                            return memory[m] !== undefined ? memory[m] : m;
-                        });
-                        return eval(processedCondition);
-                    };
-
-                    while (checkCondition() && !r.WindowShouldClose()) {
-                        execute(loopLines);
-                    }
-                    i = blockEnd; 
-                }
-            }
-        }
-
-        // --- OUTPUT (println ONLY) ---
+        // --- OUTPUT & VARIABLES (YAZDIRMA VE DEĞİŞKEN) ---
         else if (line.startsWith("println(")) {
             const match = line.match(/\((.*)\)/);
             if (match && match[1]) {
                 const content = match[1].trim();
-                const output = memory[content] !== undefined ? memory[content] : content.replace(/"/g, '');
-                console.log(output);
+                console.log(memory[content] !== undefined ? memory[content] : content.replace(/"/g, ''));
             }
         }
-
-        // --- VARIABLE DECLARATION & ASSIGNMENT ---
         else if (line.startsWith("var ")) {
             const parts = line.replace("var ", "").split("=");
             if (parts.length === 2) {
                 const name = parts[0].trim();
-                const rawValue = parts[1].replace(";", "").trim();
-                const calculatedValue = eval(rawValue.replace(/([a-zA-Zçğışöü]+)/g, (m) => {
-                    return memory[m] !== undefined ? memory[m] : m;
-                }));
-                memory[name] = calculatedValue;
+                memory[name] = eval(parts[1].replace(/([a-zA-Zçğışöü]+)/g, (m) => memory[m] ?? m));
             }
         }
         i++;
     }
 }
 
-// CLI Execution
 const filename = process.argv[2];
 if (filename && fs.existsSync(filename)) {
-    const code = fs.readFileSync(filename, 'utf-8');
-    execute(code.split('\n'));
+    execute(fs.readFileSync(filename, 'utf-8').split('\n'));
 } else {
-    console.log("Error: Please provide an .fs file. (Usage: ts-node interpreter.ts script.fs)");
+    console.log("Error: .fs file missing! (Usage: ts-node interpreter.ts test.fs)");
 }

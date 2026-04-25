@@ -1,45 +1,50 @@
-# FatihScript v2.0 🚀
+```text
+# 🚀 FatihScript (v3.0)
 
 ![FatihScript Logo](fatihscript-logo.png)
 
-A lightweight, high-performance programming language interpreter built with TypeScript. Developed on Pardus Linux with a focus on low-level logic and graphics.
-
-## 🛠️ Global Features
-- **Graphics Engine:** Built-in support for windows and shapes via Raylib.
-- **Input System:** Real-time keyboard support with `isKeyDown`.
-- **Dynamic Memory:** Flexible variable management with `var`.
-- **Loop Control:** Robust `while` loop implementation.
-- **Pardus Native:** Optimized for Linux environments.
-
-## 📜 Syntax Guide
-```text
-openWindow(800, 600, "FatihScript Demo")
-var raketY = 250
-// Control a paddle with W/S keys
-var wPressed = isKeyDown(KEY_W)
-drawRect(20, raketY, 15, 90)
-```
-
-## 🎮 Demo Project: Pong
-To play the first official game created with FatihScript:
-1. Install dependencies: `npm install`
-2. Run the game: `ts-node interpreter.ts pong.fs`
-
-## 🚀 Getting Started
-```bash
-# Install global requirements
-sudo npm install -g ts-node typescript
-npm install
-
-# Run your script
-ts-node interpreter.ts your_file.fs
-```
-
-## 🗺️ Roadmap
-- [x] Raylib Graphics Integration
-- [x] Real-time Keyboard Input
-- [ ] User-defined Functions (func)
-- [ ] Native Compilation (Binary Output)
+FatihScript is a native and powerful interpreter language developed for Pardus and Debian-based systems. It combines low-level logic with high-level syntax simplicity, built on top of the Raylib engine.
 
 ---
-*Created by Fatihbey - Developed on Pardus Linux*
+
+## ✨ What's New (v3.0)
+- ⌨️ Terminal Input: You can now get user data using the input() command.
+- 🖱️ Mouse Support: Added getMouseX(), getMouseY(), and isMouseButtonDown().
+- 🛡️ PollInputEvents: Strengthened OS communication, fixing "Not Responding" issues.
+- 📏 PrintLine: Standardized output with the println() function.
+
+---
+
+## 🛠️ Installation
+To run FatihScript, install Node.js and the required libraries:
+
+# Install Dependencies:
+npm install raylib readline-sync
+
+# Start the Program:
+ts-node interpreter.ts test.fs
+
+---
+
+## 🎮 Sample Code (Painting Application)
+
+openWindow(800, 600, "FatihPaint")
+startDrawing()
+clearCanvas()
+endDrawing()
+
+while (1 == 1) {
+    startDrawing()
+    var mx = getMouseX()
+    var my = getMouseY()
+    if (isMouseButtonDown() == 1) {
+        drawRect(mx, my, 10, 10)
+    }
+    endDrawing()
+}
+
+---
+
+## 👨‍💻 DEVELOPER:
+# Fatihbey (@fatihbeyoglu372)
+System programming and game engine architecture enthusiast on Pardus Linux.

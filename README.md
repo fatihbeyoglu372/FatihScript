@@ -1,49 +1,50 @@
-# FatihScript v2.0 🚀
+```text
+# 🚀 FatihScript (v3.0)
 
 ![FatihScript Logo](fatihscript-logo.png)
 
-TypeScript ile geliştirilmiş, hafif ve güçlü bir programlama dili yorumlayıcısı. Pardus Linux üzerinde, düşük seviyeli sistem mantığıyla inşa edilmiştir.
-
-## 🛠️ Global Özellikler
-- **Grafik Motoru:** Raylib entegrasyonu ile pencere ve şekil desteği.
-- **Klavye Kontrolü:** `isKeyDown` ile gerçek zamanlı oyun mekanikleri.
-- **Dinamik Bellek:** `var` ile esnek değişken yönetimi.
-- **Döngüler:** Tam `while` döngüsü desteği.
-- **Pardus Native:** Yerli Linux dağıtımında tam performans.
-
-## 📜 Sözdizimi (Syntax) Örneği
-```text
-openWindow(800, 600, "FatihScript Test")
-var x = 100
-while (x < 400) {
-    startDrawing()
-    clearCanvas()
-    drawRect(x, 200, 50, 50)
-    endDrawing()
-    var x = x + 1
-}
-```
-
-## 🎮 İlk Proje: Pong
-FatihScript ile yazılmış ilk gerçek oyun olan **Pong**'u çalıştırmak için:
-1. Gerekli kütüphaneleri kur: `npm install`
-2. Oyunu başlat: `ts-node interpreter.ts pong.fs`
-
-## 🚀 Kurulum ve Çalıştırma
-```bash
-# Bağımlılıkları kurun
-sudo npm install -g ts-node typescript
-npm install
-
-# Kendi kodunuzu çalıştırın
-ts-node interpreter.ts dosya_adin.fs
-```
-
-## 🗺️ Yol Haritası
-- [x] Raylib Grafik Desteği
-- [x] Klavye Kontrolleri
-- [ ] Fonksiyon Tanımlama (func)
-- [ ] Native Compiler (Binary Çıktısı)
+FatihScript, Pardus ve Debian tabanlı sistemler için geliştirilmiş, düşük seviyeli mantık ile yüksek seviyeli yazım kolaylığını birleştiren yerli ve milli bir interpreter dilidir. Raylib motoru üzerine inşa edilmiştir.
 
 ---
-*Fatihbey tarafından geliştirildi - Pardus Linux üzerinde kodlandı*
+
+## ✨ Yenilikler (v3.0)
+- ⌨️ Terminal Input: Artık input() komutu ile kullanıcıdan veri alabilirsiniz.
+- 🖱️ Mouse Desteği: getMouseX(), getMouseY() ve isMouseButtonDown() eklendi.
+- 🛡️ PollInputEvents: İşletim sistemiyle iletişim güçlendirildi, donma sorunları giderildi.
+- 📏 PrintLine: Sadece println() standardı getirildi.
+
+---
+
+## 🛠️ Kurulum
+FatihScript'i çalıştırmak için Node.js ve gerekli kütüphaneleri kurun:
+
+# Komut:
+npm install raylib readline-sync
+
+# Programı Başlatmak İçin:
+ts-node interpreter.ts test.fs
+
+---
+
+## 🎮 Örnek Kod (Boyama Uygulaması)
+
+openWindow(800, 600, "FatihPaint")
+startDrawing()
+clearCanvas()
+endDrawing()
+
+while (1 == 1) {
+    startDrawing()
+    var mx = getMouseX()
+    var my = getMouseY()
+    if (isMouseButtonDown() == 1) {
+        drawRect(mx, my, 10, 10)
+    }
+    endDrawing()
+}
+
+---
+
+## 👨‍💻 GELİŞTİRİCİ:
+# Fatihbey (@fatihbeyoglu372)
+Pardus üzerinde sistem programlama ve oyun motoru mimarisi tutkunu.
