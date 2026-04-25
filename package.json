@@ -3,6 +3,7 @@
     "@types/node": "^25.6.0"
   },
   "dependencies": {
+    "raylib": "^0.14.0",
     "readline-sync": "^1.4.10"
   }
 }

@@ -1,57 +1,49 @@
-# 🚀 FatihScript
+# FatihScript v2.0 🚀
 
-![FatihScript Logo](./fatihscript-logo.png)
+![FatihScript Logo](fatihscript-logo.png)
 
+TypeScript ile geliştirilmiş, hafif ve güçlü bir programlama dili yorumlayıcısı. Pardus Linux üzerinde, düşük seviyeli sistem mantığıyla inşa edilmiştir.
+
+## 🛠️ Global Özellikler
+- **Grafik Motoru:** Raylib entegrasyonu ile pencere ve şekil desteği.
+- **Klavye Kontrolü:** `isKeyDown` ile gerçek zamanlı oyun mekanikleri.
+- **Dinamik Bellek:** `var` ile esnek değişken yönetimi.
+- **Döngüler:** Tam `while` döngüsü desteği.
+- **Pardus Native:** Yerli Linux dağıtımında tam performans.
+
+## 📜 Sözdizimi (Syntax) Örneği
 ```text
-============================================================
-                  FATİHSCRIPT DİLİ (v1.0)
-                KULLANIM VE KOD KLAVUZU
-============================================================
+openWindow(800, 600, "FatihScript Test")
+var x = 100
+while (x < 400) {
+    startDrawing()
+    clearCanvas()
+    drawRect(x, 200, 50, 50)
+    endDrawing()
+    var x = x + 1
+}
+```
 
-[PROJE TANIMI]
-FatihScript, TypeScript tabanlı, hızlı ve modern bir dildir.
-Kendi ekosistemini .fs dosyaları üzerinden kurar.
+## 🎮 İlk Proje: Pong
+FatihScript ile yazılmış ilk gerçek oyun olan **Pong**'u çalıştırmak için:
+1. Gerekli kütüphaneleri kur: `npm install`
+2. Oyunu başlat: `ts-node interpreter.ts pong.fs`
 
-[KURULUM]
-$ npm install -g ts-node typescript
+## 🚀 Kurulum ve Çalıştırma
+```bash
+# Bağımlılıkları kurun
+sudo npm install -g ts-node typescript
+npm install
 
-[KULLANIM]
-$ ts-node index.ts test.fs
+# Kendi kodunuzu çalıştırın
+ts-node interpreter.ts dosya_adin.fs
+```
 
-------------------------------------------------------------
-[FATİHSCRIPT KOD KLAVUZU]
+## 🗺️ Yol Haritası
+- [x] Raylib Grafik Desteği
+- [x] Klavye Kontrolleri
+- [ ] Fonksiyon Tanımlama (func)
+- [ ] Native Compiler (Binary Çıktısı)
 
-1. Değişken Tanımlama:
-   Değişkenlerinizi "değişken" anahtar kelimesiyle tanımlayın:
-   Örnek: değişken sayı = 10;
-
-2. Ekrana Yazdırma:
-   Ekrana çıktı vermek için "printIn" komutunu kullanın:
-   Örnek: printIn("Merhaba Dünya");
-
-3. Karar Yapıları (if/else):
-   Şartlı durumlar için if ve else bloklarını kullanın:
-   Örnek:
-   if (sayı > 5) {
-       printIn("Sayı 5'ten büyüktür");
-   } else {
-       printIn("Sayı küçüktür");
-   }
-
-4. Dosya Yapısı:
-   Kodlarınızı mutlaka '.fs' uzantılı dosyalarda saklayın.
-
-5. VS Code Ayarı:
-   Settings -> Files: Associations -> "*.fs": "fsharp"
-------------------------------------------------------------
-
-[PROJE YAPISI]
-- index.ts             : Dilin ana çekirdek motoru.
-- test.fs              : Örnek kod dosyası.
-- fatihscript-logo.png : Resmi logo.
-- package.json         : Sistem bağımlılıkları.
-
-[GELİŞTİRİCİ]
-Geliştiren: Fatihbey (@fatihbeyoglu372)
-Konum: Konya, Türkiye 🇹🇷
-============================================================
+---
+*Fatihbey tarafından geliştirildi - Pardus Linux üzerinde kodlandı*
