@@ -1,4 +1,3 @@
-```text
 # 🚀 FatihScript (v3.0)
 
 ![FatihScript Logo](fatihscript-logo.png)
